@@ -4,12 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Paddle extends JPanel {
-    private int YPos;
+    private int y;
     private static final int paddleWidth = 10;
     private static final int paddleHeight = 75;
 
-    public Paddle(int initialYPos){
-        YPos = initialYPos;
+    public void setInitCoord(){
+        y = (getHeight() / 2) - (paddleHeight/2);
     }
 
     @Override
@@ -20,21 +20,22 @@ public class Paddle extends JPanel {
         g2d.fillRect(0,0,getWidth(),getHeight());
 
         g2d.setColor(Shared.gameObjectGrey);
-        g2d.fillRect(0,YPos, paddleWidth, paddleHeight);
+        g2d.fillRect(0,y, paddleWidth, paddleHeight);
 
 
     }
 
     public void move(int change){
 
-        YPos += change;
-        if (YPos <= 0){
-            YPos = 0;
-        }else if(YPos+ paddleHeight >= getHeight()){
-            YPos = getHeight() - paddleHeight;
+        y += change;
+        if (y <= 0){
+            y = 0;
+        }else if(y+ paddleHeight >= getHeight()){
+            y = getHeight() - paddleHeight;
         }
         repaint();
 
     }
+
 
 }

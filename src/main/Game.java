@@ -6,7 +6,9 @@ import java.awt.event.KeyListener;
 
 
 public class Game implements KeyListener {
-	Paddle player = new Paddle(50);
+	Paddle player = new Paddle();
+	Paddle computer = new Paddle();
+	Ball ball = new Ball();
 
 	public static void main(String[] args) {
 		new Game().run();
@@ -21,9 +23,18 @@ public class Game implements KeyListener {
 	    frame.setSize(Shared.windowWidth,Shared.windowHeight);
 	    frame.getContentPane().setBackground(Shared.backgroundWhite);
 	    frame.getContentPane().add(BorderLayout.EAST,player);
+	    frame.getContentPane().add(BorderLayout.WEST,computer);
+	    frame.getContentPane().add(BorderLayout.CENTER,ball);
 	    frame.addKeyListener(this);
 	    frame.setResizable(false);
 	    frame.setVisible(true);
+
+	    ball.setInitCoord();
+	    player.setInitCoord();
+	    computer.setInitCoord();
+
+	    Thread ballThread = new Thread(ball);
+	    ballThread.start();
     }
 
 	@Override
@@ -34,9 +45,9 @@ public class Game implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_UP){
-			player.move(-7);
+			player.move(-10);
 		}else if (e.getKeyCode() == KeyEvent.VK_DOWN){
-			player.move(7);
+			player.move(10);
 		}
 
 	}
