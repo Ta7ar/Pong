@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Paddle extends JPanel {
+    public int score = 0;
     public int y;
     public static final int paddleWidth = 10;
     public static final int paddleHeight = 75;

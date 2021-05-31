@@ -8,8 +8,13 @@ import java.awt.event.KeyListener;
 public class Game implements KeyListener {
 	Paddle player = new Paddle();
 	Paddle computer = new Paddle();
-	Ball ball = new Ball(player,computer);
-	Thread ballThread = new Thread(ball);
+	JLabel scoreboard = new JLabel(computer.score + " - " + player.score,SwingConstants.CENTER);
+	Ball ballPanel = new Ball(player,computer,scoreboard);
+	Thread ballThread = new Thread(ballPanel);
+	public Game(){
+		scoreboard.setFont(new Font("Verdana",Font.BOLD,18));
+		scoreboard.setBorder(BorderFactory.createLineBorder(Shared.gameObjectGrey));
+	}
 
 	public static void main(String[] args) {
 		Game game = new Game();
@@ -23,18 +28,32 @@ public class Game implements KeyListener {
 	    frame.getContentPane().setBackground(Shared.backgroundWhite);
 	    frame.getContentPane().add(BorderLayout.EAST,player);
 	    frame.getContentPane().add(BorderLayout.WEST,computer);
-	    frame.getContentPane().add(BorderLayout.CENTER,ball);
+	    frame.getContentPane().add(BorderLayout.CENTER, ballPanel);
+	    frame.getContentPane().add(BorderLayout.NORTH,scoreboard);
 	    frame.addKeyListener(this);
 	    frame.setResizable(false);
 	    frame.setVisible(true);
-
-	    ball.setInitCoord();
-	    player.setInitCoord();
-	    computer.setInitCoord();
-
-
     }
     public void startGame(){
+		player.setInitCoord();
+		computer.setInitCoord();
+		ballPanel.setInitCoord();
+
+		JLabel countdownLabel = new JLabel();
+		countdownLabel.setHorizontalTextPosition(SwingConstants.HORIZONTAL);
+		countdownLabel.setFont(new Font("Verdana",Font.BOLD,24));
+		ballPanel.add(countdownLabel);
+		for(int i = 3; i >= 0 ; i--){
+			try {
+				countdownLabel.setText(String.valueOf(i));
+				Thread.sleep(750);
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		countdownLabel.setText("");
+
 		ballThread.interrupt();
 		ballThread.start();
 	}
