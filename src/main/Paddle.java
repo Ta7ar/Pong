@@ -11,6 +11,7 @@ public class Paddle extends JPanel {
 
     public void setInitCoord(){
         y = (getHeight() / 2) - (paddleHeight/2);
+        repaint();
     }
 
     @Override
@@ -22,12 +23,9 @@ public class Paddle extends JPanel {
 
         g2d.setColor(Shared.gameObjectGrey);
         g2d.fillRect(0,y, paddleWidth, paddleHeight);
-
-
     }
 
     public void move(int change){
-
         y += change;
         if (y <= 0){
             y = 0;
@@ -36,6 +34,14 @@ public class Paddle extends JPanel {
         }
         repaint();
 
+    }
+
+    public void CPUMove(int ballYPosition){
+        if (ballYPosition < y){
+            move(-10);
+        }else if (ballYPosition > y+Paddle.paddleHeight){
+            move(10);
+        }
     }
 
 
