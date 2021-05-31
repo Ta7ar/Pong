@@ -3,21 +3,25 @@ package main;
 import javax.swing.*;
 import java.awt.*;
 
-public class Ball extends JPanel implements Runnable {
-    int velocity = 3 ,x,y;
+public class Ball extends JPanel {
+    int velocity,x,y;
     double i,j;
     Paddle p1,p2;
     JLabel scoreboard;
-    public Ball(Paddle p1, Paddle p2, JLabel scoreboard){
-        i = Math.max(0.5,Math.random());
-        j = 1 - i;
+    Game game;
+    public Ball(Paddle p1, Paddle p2, JLabel scoreboard,Game game){
         this.p1 = p1;
         this.p2 = p2;
         this.scoreboard = scoreboard;
+        this.game = game;
     }
     public void setInitCoord(){
+        velocity = 5;
+        i = Math.max(0.5,Math.random());
+        j = 1 - i;
         x = (getWidth()/2) - 5;
         y = (getHeight()/2) - 5;
+        repaint();
     }
 
     @Override
@@ -29,7 +33,6 @@ public class Ball extends JPanel implements Runnable {
         g2d.fillOval(x,y,10,10);
     }
 
-    @Override
     public void run() {
         while(true){
             x += i*velocity;
@@ -41,6 +44,8 @@ public class Ball extends JPanel implements Runnable {
                 }else{
                     p1.score += 1;
                     scoreboard.setText(p2.score + " - " + p1.score);
+                    game.startGame();
+                    return;
                 }
             } else if(x >= getWidth()-10){
                 if (y >= p1.y && y<= p1.y + Paddle.paddleHeight){
@@ -49,6 +54,8 @@ public class Ball extends JPanel implements Runnable {
                 }else{
                     p2.score += 1;
                     scoreboard.setText(p2.score + " - " + p1.score);
+                    game.startGame();
+                    return;
                 }
             } else if (y <= 0 || y >= getHeight()-10){
                 j = -1*j;

@@ -9,8 +9,7 @@ public class Game implements KeyListener {
 	Paddle player = new Paddle();
 	Paddle computer = new Paddle();
 	JLabel scoreboard = new JLabel(computer.score + " - " + player.score,SwingConstants.CENTER);
-	Ball ballPanel = new Ball(player,computer,scoreboard);
-	Thread ballThread = new Thread(ballPanel);
+	Ball ballPanel = new Ball(player,computer,scoreboard,this);
 	public Game(){
 		scoreboard.setFont(new Font("Verdana",Font.BOLD,18));
 		scoreboard.setBorder(BorderFactory.createLineBorder(Shared.gameObjectGrey));
@@ -35,6 +34,7 @@ public class Game implements KeyListener {
 	    frame.setVisible(true);
     }
     public void startGame(){
+
 		player.setInitCoord();
 		computer.setInitCoord();
 		ballPanel.setInitCoord();
@@ -53,9 +53,7 @@ public class Game implements KeyListener {
 			}
 		}
 		countdownLabel.setText("");
-
-		ballThread.interrupt();
-		ballThread.start();
+		ballPanel.run();
 	}
 
 	@Override
