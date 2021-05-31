@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Paddle extends JPanel {
-    private int y;
-    private static final int paddleWidth = 10;
-    private static final int paddleHeight = 75;
+    public int y;
+    public static final int paddleWidth = 10;
+    public static final int paddleHeight = 75;
 
     public void setInitCoord(){
         y = (getHeight() / 2) - (paddleHeight/2);

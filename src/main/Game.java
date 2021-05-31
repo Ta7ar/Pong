@@ -8,16 +8,15 @@ import java.awt.event.KeyListener;
 public class Game implements KeyListener {
 	Paddle player = new Paddle();
 	Paddle computer = new Paddle();
-	Ball ball = new Ball();
+	Ball ball = new Ball(player,computer);
+	Thread ballThread = new Thread(ball);
 
 	public static void main(String[] args) {
-		new Game().run();
+		Game game = new Game();
+		game.setupGUI();
+		game.startGame();
 	}
-	private void setupGUI(){
-
-	}
-
-    public void run() {
+	public void setupGUI() {
 	    JFrame frame = new JFrame("Pong");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    frame.setSize(Shared.windowWidth,Shared.windowHeight);
@@ -33,9 +32,12 @@ public class Game implements KeyListener {
 	    player.setInitCoord();
 	    computer.setInitCoord();
 
-	    Thread ballThread = new Thread(ball);
-	    ballThread.start();
+
     }
+    public void startGame(){
+		ballThread.interrupt();
+		ballThread.start();
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
